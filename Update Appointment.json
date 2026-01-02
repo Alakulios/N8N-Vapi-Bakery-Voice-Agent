@@ -1,0 +1,244 @@
+{
+  "name": "Update Appointment",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d63db070-3523-492a-a691-72fbc1bc9ea3",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "04f8c981-7a90-4576-ba4d-0b7c06f52cef",
+      "name": "Webhook",
+      "webhookId": "d63db070-3523-492a-a691-72fbc1bc9ea3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "bigehagan@gmail.com",
+          "mode": "list",
+          "cachedResultName": "Bigehagan "
+        },
+        "eventId": "={{ $json.body.appointmentId }}",
+        "updateFields": {
+          "end": "={{ $json.body.newEndDate }}",
+          "start": "={{ $json.body.newDateStart }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        80,
+        16
+      ],
+      "id": "05f8328e-97d8-45f3-8a1b-93059b63ee7b",
+      "name": "Update an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "HGFzuh0Nx9BQoHZ2",
+          "name": "Google Calendar account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA",
+          "mode": "list",
+          "cachedResultName": "Baking Business Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1348518753,
+          "mode": "list",
+          "cachedResultName": "Appointment  Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit#gid=1348518753"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id": "={{ $('Webhook').item.json.body.appointmentId }}",
+            "Date": "={{ $('Webhook').item.json.body.newDateStart }}",
+            "Notes": "rescheduled"
+          },
+          "matchingColumns": [
+            "Id"
+          ],
+          "schema": [
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Appointment Type",
+              "displayName": "Appointment Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        288,
+        16
+      ],
+      "id": "c11b039a-ab38-499e-b985-0685933e0bbe",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ttvnoEhjBLVk8VLL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79104292-9af1-4066-bc3a-66feb92d616e",
+              "name": "message",
+              "value": "The appointment has been updated",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        496,
+        16
+      ],
+      "id": "8798840e-beb5-4fdd-ba70-755cb11dff3e",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Update an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an event": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "98fb98ee-3918-4e3b-a1fd-100b3525967a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b697bdfe210f8914dd686cfce71fc43347f1152e72b3db769bd169ff0001203f"
+  },
+  "id": "PbC5rDUvrxi7Stfd",
+  "tags": [
+    {
+      "updatedAt": "2025-12-15T02:24:34.488Z",
+      "createdAt": "2025-12-15T02:24:34.488Z",
+      "id": "x0uB6KMTziDtq6XW",
+      "name": "Vapi MCP"
+    }
+  ]
+}

@@ -1,0 +1,424 @@
+{
+  "name": "Client Lookup",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d266a4c2-d2ad-42f3-9bb0-242b9790a997",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        752
+      ],
+      "id": "96b3e34e-eeff-4519-b737-cd90235c68b3",
+      "name": "Webhook",
+      "webhookId": "d266a4c2-d2ad-42f3-9bb0-242b9790a997"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA",
+          "mode": "list",
+          "cachedResultName": "Baking Business Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Clients ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $json.body.email }}"
+            },
+            {
+              "lookupColumn": "Phone",
+              "lookupValue": "={{ $json.body.phoneNumber }}"
+            }
+          ]
+        },
+        "combineFilters": "OR",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        80,
+        752
+      ],
+      "id": "6cbbdc71-36fb-4159-b0a6-9281b2d46ed8",
+      "name": "Get Row from Client",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ttvnoEhjBLVk8VLL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c3a5c167-1310-4f0d-bb72-5cb0bf1254f9",
+              "leftValue": "={{ $json.Email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a19dfcce-efdf-4d9f-ae18-52d4c5046016",
+              "leftValue": "={{ $json.Phone }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        240,
+        752
+      ],
+      "id": "7e1d8dea-dbd2-405e-9f06-8864b0992abf",
+      "name": "If Client Exists"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aa5ab212-422a-48e8-8e0a-845f56a5b2d4",
+              "name": "success",
+              "value": "true",
+              "type": "string"
+            },
+            {
+              "id": "28c7353d-9fac-4252-8019-015db1b730e6",
+              "name": "message",
+              "value": "This client exists in the CRM. However, he or she has no previous appointments with Honeyrise Bakes.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        864
+      ],
+      "id": "4cbd88a6-2d2d-4890-805d-17a1b6e826c8",
+      "name": "Edit Field Client Exists"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA",
+          "mode": "list",
+          "cachedResultName": "Baking Business Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1348518753,
+          "mode": "list",
+          "cachedResultName": "Appointment  Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit#gid=1348518753"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $json.Email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        656
+      ],
+      "id": "9766db45-ad13-4e38-bc00-0ab795444140",
+      "name": "Get Row Pickup Log",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ttvnoEhjBLVk8VLL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1ab1e442-0781-4f87-b081-d8d56b526b1e",
+              "leftValue": "={{ $('Get Row from Client').item.json.Email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "be3a8e0a-60ed-4cce-87c8-0606c908cfb1",
+              "leftValue": "={{ $json.Notes }}",
+              "rightValue": "=canceled ",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "0d3f6ee7-2c41-4006-a89f-fd48b20fed69",
+              "leftValue": "={{ $json.Notes }}",
+              "rightValue": "reschedule",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        656,
+        656
+      ],
+      "id": "28512ed3-1007-4ff4-a843-9677840f1adf",
+      "name": "If Client has Appointment"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8035a62f-962e-419a-aaf9-0e21417fafb4",
+              "name": "success",
+              "value": "true",
+              "type": "string"
+            },
+            {
+              "id": "7f5aa5d9-17ec-413d-8c3d-bed71e76f0a5",
+              "name": "message",
+              "value": "This client exists in the CRM. However, he or she has no previous appointments with Honeyrise Bakes.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        768
+      ],
+      "id": "e99ba876-6f1e-4c99-8adc-bf0648982b0b",
+      "name": "Client no Appointment"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a97b7b2e-c0fd-4d03-802c-0e0941cf0a2c",
+              "name": "success",
+              "value": "true",
+              "type": "string"
+            },
+            {
+              "id": "3fe754b1-77d4-4566-8ad6-87773f496166",
+              "name": "message",
+              "value": "=The client is in the database and has an appointment at {{ $json.Date }} and here is the {{ $json.Id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        544
+      ],
+      "id": "b902f402-a07b-40d6-ad4f-7c43bc9207de",
+      "name": "Client with Appointment"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1199506.hstgr.cloud",
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "content-length": "48",
+            "accept": "*/*",
+            "accept-encoding": "gzip,deflate",
+            "baggage": "sentry-environment=production,sentry-release=de1fe2d417b9654d87ac1666fb78b34eb0d401e7,sentry-public_key=fac6f282c765ce50b18c3fa0305f8a8b,sentry-trace_id=b346490611ff4c27b42b4b4734c787f9",
+            "content-type": "application/json",
+            "sentry-trace": "b346490611ff4c27b42b4b4734c787f9-a11e55f9e8732a68",
+            "traceparent": "00-99705f2e5670256087fef00970ea92bc-a561209813e9c8c2-01",
+            "x-forwarded-for": "170.9.5.187",
+            "x-forwarded-host": "n8n.srv1199506.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "7f860564934a",
+            "x-real-ip": "170.9.5.187",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "email": "johnsmith@gmail.com",
+            "phoneNumber": ""
+          },
+          "webhookUrl": "https://n8n.srv1199506.hstgr.cloud/webhook/d266a4c2-d2ad-42f3-9bb0-242b9790a997",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Row from Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Row from Client": {
+      "main": [
+        [
+          {
+            "node": "If Client Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Client Exists": {
+      "main": [
+        [
+          {
+            "node": "Get Row Pickup Log",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Field Client Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Row Pickup Log": {
+      "main": [
+        [
+          {
+            "node": "If Client has Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Client has Appointment": {
+      "main": [
+        [
+          {
+            "node": "Client with Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Client no Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Field Client Exists": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": true
+  },
+  "versionId": "24349e1f-2e6d-47f7-9e6c-3ea33253b1a5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b697bdfe210f8914dd686cfce71fc43347f1152e72b3db769bd169ff0001203f"
+  },
+  "id": "XbLJxsxav3L3Pqnp",
+  "tags": [
+    {
+      "updatedAt": "2025-12-15T02:24:34.488Z",
+      "createdAt": "2025-12-15T02:24:34.488Z",
+      "id": "x0uB6KMTziDtq6XW",
+      "name": "Vapi MCP"
+    }
+  ]
+}

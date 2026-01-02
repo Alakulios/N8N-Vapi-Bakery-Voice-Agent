@@ -1,0 +1,171 @@
+{
+  "name": "Append_New_Client",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b47d78d1-5fc4-4cce-8b38-09f7d8225d9c",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        368
+      ],
+      "id": "283da80f-c5c6-463c-9b03-0d0d06604aa6",
+      "name": "Webhook1",
+      "webhookId": "b47d78d1-5fc4-4cce-8b38-09f7d8225d9c"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA",
+          "mode": "list",
+          "cachedResultName": "Baking Business Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Clients ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.body.email }}",
+            "Name": "={{ $json.body.fullName }}",
+            "Phone": "={{ $json.body.phoneNumber }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        64,
+        368
+      ],
+      "id": "bfce51cf-95e3-413d-9b9d-f9454fd26b30",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ttvnoEhjBLVk8VLL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "38f90ee2-f24e-43d9-ae95-7c9bf30cc718",
+              "name": "success",
+              "value": "true",
+              "type": "string"
+            },
+            {
+              "id": "c3f7c00a-bd16-45a8-ab6d-d3efb37f15f0",
+              "name": "message",
+              "value": "\"New client added successfully\"",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        368
+      ],
+      "id": "8f96d5d5-7263-41ad-b97f-6131546b0d3d",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": true
+  },
+  "versionId": "91756d89-4fe2-4950-9206-b66391c8cb3b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b697bdfe210f8914dd686cfce71fc43347f1152e72b3db769bd169ff0001203f"
+  },
+  "id": "SVs2aUUSAcp32twe",
+  "tags": [
+    {
+      "updatedAt": "2025-12-15T02:24:34.488Z",
+      "createdAt": "2025-12-15T02:24:34.488Z",
+      "id": "x0uB6KMTziDtq6XW",
+      "name": "Vapi MCP"
+    }
+  ]
+}

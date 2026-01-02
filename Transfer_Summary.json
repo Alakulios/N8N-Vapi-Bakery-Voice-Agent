@@ -1,0 +1,70 @@
+{
+  "name": "Transfer_Summary",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "7cd08f24-d405-4f34-a5b8-f59d2a980c84",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ed5880ee-663e-4cb1-9ca4-8d08ea261d37",
+      "name": "Webhook",
+      "webhookId": "7cd08f24-d405-4f34-a5b8-f59d2a980c84"
+    },
+    {
+      "parameters": {
+        "sendTo": "bigehagan@gmail.com",
+        "subject": "Current phone call",
+        "message": "test",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b2e2653f-28d4-4202-a4d3-61758583b62b",
+      "name": "Send a message",
+      "webhookId": "b6fd51d8-f531-4b99-ae1b-0b9cfdd282f3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5ZY7ZTet0ptNJYIr",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e182eed0-d3b6-4afe-a6fc-020023b64cca",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b697bdfe210f8914dd686cfce71fc43347f1152e72b3db769bd169ff0001203f"
+  },
+  "id": "Dj4wD9lZZVMSdBSi",
+  "tags": []
+}

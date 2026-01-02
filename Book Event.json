@@ -1,0 +1,265 @@
+{
+  "name": "Book Event",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "9f042c8c-1df2-4e3e-b53a-a947ca456b0d",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d6fef661-8a63-4ea3-969e-26f7aa676c5c",
+      "name": "Webhook",
+      "webhookId": "9f042c8c-1df2-4e3e-b53a-a947ca456b0d"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "bigehagan@gmail.com",
+          "mode": "list",
+          "cachedResultName": "Bigehagan "
+        },
+        "start": "={{ $json.body.startTime }}",
+        "end": "={{ $json.body.endTime }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $json.body.clientEmail }}"
+          ],
+          "summary": "test2"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ebbccd1a-d576-4f97-b969-4ff9deef6fd0",
+      "name": "Create an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "HGFzuh0Nx9BQoHZ2",
+          "name": "Google Calendar account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA",
+          "mode": "list",
+          "cachedResultName": "Baking Business Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1348518753,
+          "mode": "list",
+          "cachedResultName": "Appointment  Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit#gid=1348518753"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Webhook').item.json.body.clientEmail }}",
+            "Appointment Type": "={{ $('Webhook').item.json.body.appointmentType }}",
+            "Date": "={{ $('Webhook').item.json.body.startTime }}",
+            "Number": "={{ $('Webhook').item.json.body.clientNumber }}",
+            "Id": "={{ $json.id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Appointment Type",
+              "displayName": "Appointment Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "0e174a98-42c3-4661-b1e1-aa7c70fc6720",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ttvnoEhjBLVk8VLL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "be23a443-3a64-4a93-9eda-5d3a0070ef05",
+              "name": "message",
+              "value": "appointment is booked",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        0
+      ],
+      "id": "42d05c99-577a-4bcf-9045-9389bee55ca2",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1199506.hstgr.cloud",
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "content-length": "198",
+            "accept": "*/*",
+            "accept-encoding": "gzip,deflate",
+            "baggage": "sentry-environment=production,sentry-release=1475b17e909a3431bf56e07e434fa9de957adaec,sentry-public_key=fac6f282c765ce50b18c3fa0305f8a8b,sentry-trace_id=e81ae6d4a55948dfb6961f62fe70e7e1",
+            "content-type": "application/json",
+            "sentry-trace": "e81ae6d4a55948dfb6961f62fe70e7e1-8bd7354c5cd57fac",
+            "traceparent": "00-4fd28eae793b2b1f755fd652cb55e0d9-82d47976e20bafb4-01",
+            "x-forwarded-for": "146.235.224.251",
+            "x-forwarded-host": "n8n.srv1199506.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "ffda73ab8502",
+            "x-real-ip": "146.235.224.251",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "endTime": "2025-12-19T18:00:00-06:00",
+            "startTime": "2025-12-19T17:00:00-06:00",
+            "clientName": "Josh Brush",
+            "clientEmail": "jonhsmith@test.com",
+            "clientNumber": "+15022144587",
+            "appointmentType": "Tasting"
+          },
+          "webhookUrl": "https://n8n.srv1199506.hstgr.cloud/webhook/9f042c8c-1df2-4e3e-b53a-a947ca456b0d",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "51f23355-ddc3-43ca-a858-eb9f4907a56e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b697bdfe210f8914dd686cfce71fc43347f1152e72b3db769bd169ff0001203f"
+  },
+  "id": "KA6NQTqOM8gR9rXL",
+  "tags": []
+}

@@ -1,0 +1,263 @@
+{
+  "name": "Delete Appointment",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b100e9c5-1810-402e-a008-119335b83e08",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        0
+      ],
+      "id": "adf2a79c-8521-447d-838c-a8aeccfdeb1b",
+      "name": "Webhook",
+      "webhookId": "b100e9c5-1810-402e-a008-119335b83e08"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "bigehagan@gmail.com",
+          "mode": "list",
+          "cachedResultName": "Bigehagan "
+        },
+        "eventId": "={{ $json.body.appointmentId }}",
+        "options": {
+          "sendUpdates": "none"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        80,
+        0
+      ],
+      "id": "c107d474-bd17-4b07-b508-983cebe14167",
+      "name": "Delete an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "8b8jHjzfARukxdTg",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA",
+          "mode": "list",
+          "cachedResultName": "Baking Business Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1348518753,
+          "mode": "list",
+          "cachedResultName": "Appointment  Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit#gid=1348518753"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id": "={{ $('Webhook').item.json.body.appointmentId }}",
+            "Notes": "canceled "
+          },
+          "matchingColumns": [
+            "Id"
+          ],
+          "schema": [
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Appointment Type",
+              "displayName": "Appointment Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        0
+      ],
+      "id": "ff4fda3e-2a81-443e-ae4b-6ac92754d047",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ttvnoEhjBLVk8VLL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f868e86c-8422-4ff7-8d74-c60ba05a79b2",
+              "name": "message ",
+              "value": "Appointment canceled  ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        0
+      ],
+      "id": "a507184b-c123-44d8-a594-27a56c5adb68",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1199506.hstgr.cloud",
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "content-length": "82",
+            "accept": "*/*",
+            "accept-encoding": "gzip,deflate",
+            "baggage": "sentry-environment=production,sentry-release=de1fe2d417b9654d87ac1666fb78b34eb0d401e7,sentry-public_key=fac6f282c765ce50b18c3fa0305f8a8b,sentry-trace_id=db51362b5496448e9ea45199eefbb5de",
+            "content-type": "application/json",
+            "sentry-trace": "db51362b5496448e9ea45199eefbb5de-964ce6d0e7f30d5d",
+            "traceparent": "00-f21618cc043fa7c58bdaf0c022f1ac10-39eaac9170cd001c-01",
+            "x-forwarded-for": "170.9.5.187",
+            "x-forwarded-host": "n8n.srv1199506.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "7f860564934a",
+            "x-real-ip": "170.9.5.187",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "clientEmail": "johnsmith@gmail.com",
+            "appointmentId": "7isc707u4cub76sl6cg3f1n0fk"
+          },
+          "webhookUrl": "https://n8n.srv1199506.hstgr.cloud/webhook/b100e9c5-1810-402e-a008-119335b83e08",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Delete an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an event": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d0bd664d-f1c6-4a3e-82fb-b77b7ae4d3c1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b697bdfe210f8914dd686cfce71fc43347f1152e72b3db769bd169ff0001203f"
+  },
+  "id": "elrwiaMOb6eDJ7Xk",
+  "tags": [
+    {
+      "updatedAt": "2025-12-15T02:24:34.488Z",
+      "createdAt": "2025-12-15T02:24:34.488Z",
+      "id": "x0uB6KMTziDtq6XW",
+      "name": "Vapi MCP"
+    }
+  ]
+}
