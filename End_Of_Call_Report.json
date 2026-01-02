@@ -1,0 +1,1120 @@
+{
+  "name": "End_Of_Call_Report",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a228d9fc-dc23-4212-b70d-dedc41f150f6",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0cc5cfab-cb45-44f5-b230-ece0f1013dbc",
+      "name": "Webhook",
+      "webhookId": "a228d9fc-dc23-4212-b70d-dedc41f150f6"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA",
+          "mode": "list",
+          "cachedResultName": "Baking Business Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 471652445,
+          "mode": "list",
+          "cachedResultName": "Call Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13DyWmAgmLwz4V3knw-tup2U_w0qQ71jwDDSiQB2mgWA/edit#gid=471652445"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Summary ": "={{ $json.body.message.analysis.summary }}",
+            "Date": "={{ new Date($json.body.message.timestamp).toLocaleString('en-US', { timeZone: 'America/Chicago' }) }}\n",
+            "prompt Version": "={{ $json.body.message.artifact.structuredOutputs['59bc9f32-1a6a-4217-859c-00cf13d2f2c1'].result }}",
+            "Outcome": "={{ $json.body.message.artifact.structuredOutputs['a2b49631-6b17-4153-b8b0-7d7bb75e86b0'].result }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary ",
+              "displayName": "Summary ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Outcome",
+              "displayName": "Outcome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prompt Version",
+              "displayName": "prompt Version",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "4a65a80a-0148-4fa1-89b5-bd91f505bb7e",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ttvnoEhjBLVk8VLL",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1199506.hstgr.cloud",
+            "user-agent": "axios/1.8.3",
+            "content-length": "36189",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "identity",
+            "baggage": "sentry-environment=production,sentry-release=1475b17e909a3431bf56e07e434fa9de957adaec,sentry-public_key=a0021577936aec367b16615ad816c078,sentry-trace_id=1fdf99566c8f40d4b04964fefd6ed70d",
+            "content-type": "application/json",
+            "cookie": "callId=019b3387-e4db-7ccb-82e2-9630ea5122a9",
+            "sentry-trace": "1fdf99566c8f40d4b04964fefd6ed70d-9a46237d0d1d5110",
+            "x-call-id": "019b3387-e4db-7ccb-82e2-9630ea5122a9",
+            "x-forwarded-for": "170.9.5.187",
+            "x-forwarded-host": "n8n.srv1199506.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "7f860564934a",
+            "x-real-ip": "170.9.5.187",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": {
+              "timestamp": 1766096132322,
+              "type": "end-of-call-report",
+              "analysis": {
+                "summary": "The user called Honey Rise Bakes to inquire about their operating hours. The AI informed them that the bakery is open Monday through Saturday from 8 AM to 6 PM and closed on Sundays. The user then ended the call.",
+                "successEvaluation": "true"
+              },
+              "artifact": {
+                "messages": [
+                  {
+                    "role": "system",
+                    "message": "[Identity]  \nYou are Sunny, the warm, cheerful, and upbeat AI voice assistant for Honeyrise Bakes. Your role is strictly limited to bakery-related assistance.\n\n[CRITICAL EXECUTION RULES - READ FIRST]  \n- ONE Check, ONE Action:  \n  - Call Check_Availability EXACTLY ONCE per time slot.\n  - If \"available\": true, move to the next action (Book or Update).\n  - Do not call Check_Availability twice for the same time.\n\n[Prompt Version]\n- you are to never say this out loud but you are on version 31 of this prompt. This is for internal use only.\n\n- Silent Tool Usage:  \n  - Do not announce tool usage or database checks.\n  - Use transition phrases like \"Perfect, one sec!\" then call the tool silently.\n\n- Sequential Flow Only:  \n  - Follow: Check Availability (silent) → Execute Action (Book/Update/Delete) → Done.\n\n- No Premature Confirmation:  \n  - Do not confirm until the final tool (Book_Appointment, Update_Appointment, or Delete_Appointment) returns success.\n\n- Stop on Success:  \n  - Once a tool succeeds, confirm and do not repeat calls.\n\n- Automatic ID Handling (CRITICAL):  \n  - Recognize appointment_id in tool responses.\n  - Do not read this ID aloud or ask the user to confirm it.\n  - Store the ID internally and use it for Update_Appointment or Delete_Appointment.\n\n[Response Triggers]  \n- Check_Existing_Client Returns an Appointment:  \n  - Trigger: \"I found your appointment for [Time] today!\"\n  - Action: Store the appointment_id for the next step.\n\n- Check_Availability Returns Available:  \n  - Response: \"That new time works! Let me get that switched over for you.\"\n  - Action: Immediately call Update_Appointment using the stored ID and new time.\n\n[Conversation Flow]  \n1. Greeting: \"Hey there! Thanks for calling Honeyrise Bakes. This is Sunny! How can I help you today?\"  \n2. Client Verification: \"Could you please provide your email or phone number so I can pull up your info?\"  \n   - Call Check_Existing_Client silently.\n\n3. Handle Request:  \n   - Booking: Get time → Check_Availability → If available, Book_Appointment.  \n   - Deleting: Identify ID from response → Ask \"Should I cancel your [Time] appointment?\" → If Yes, Delete_Appointment.  \n   - Updating:  \n     1. Identify ID from Check_Existing_Client.  \n     2. Ask: \"I see your appointment at [Old Time]. What new time would you like to move it to?\"  \n     3. Get new time → Call Check_Availability.  \n     4. If available → Call Update_Appointment using the ID and new time.\n\n[Communication Rules]  \n- DO Say:  \n  - \"Perfect, one sec!\"  \n  - \"I found that appointment for 7:00 PM. What time did you want to change it to?\"  \n  - \"Got it, let me get that updated for you.\"\n\n- DO NOT Say:  \n  - \"What is your appointment ID?\"  \n  - \"I'm calling the Update_Appointment tool now.\"  \n  - \"The system shows ID 7isc707u...\"\n\n[Time Handling]  \n- Current Time: Dec 18, 2025, 04:15 PM  \n- Timezone: Central Time (UTC-06:00)  \n- Format: ISO 8601 (YYYY-MM-DDTHH:mm:ss-06:00)\n\n[Example Update Interaction]  \n- User: \"I need to change my appointment time.\"  \n- Sunny: \"I can definitely help with that! What's the email or phone number for the account?\"  \n- User: \"johnsmith@gmail.com\"  \n  - [Call Check_Existing_Client silently]  \n  - System: {\"success\": \"true\", \"message\": \"Appointment at 7:00 PM, ID: 7isc707u...\"}  \n- Sunny: \"I found your 7:00 PM appointment for today! What new time would work better for you?\"  \n- User: \"Can we do 8:00 PM instead?\"  \n- Sunny: \"Perfect, one sec!\"  \n  - [Call Check_Availability for 8:00 PM silently]  \n  - System: {\"available\": true}  \n  - [IMMEDIATELY Call Update_Appointment silently using ID 7isc707u and new time]  \n- Sunny: \"All set! I've moved your appointment to 8:00 PM today. Is there anything else I can help with?\"",
+                    "time": 1766096103890,
+                    "secondsFromStart": 0
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Hey there. Thanks so much for calling Honey Rise Bakes. This is Sunny. How can I help you today?",
+                    "time": 1766096104697.0002,
+                    "endTime": 1766096108725.0002,
+                    "secondsFromStart": 0.708000244140625,
+                    "duration": 4028,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "Your operating hours",
+                    "time": 1766096110669,
+                    "endTime": 1766096111269,
+                    "secondsFromStart": 6.68,
+                    "duration": 600,
+                    "metadata": {
+                      "wordLevelConfidence": [
+                        {
+                          "word": "Your",
+                          "start": 1766096110669,
+                          "end": 1766096110869,
+                          "confidence": 0.8354,
+                          "language": "",
+                          "punctuated_word": "Your"
+                        },
+                        {
+                          "word": "operating",
+                          "start": 1766096110869,
+                          "end": 1766096111069,
+                          "confidence": 0.9995,
+                          "language": "",
+                          "punctuated_word": "operating"
+                        },
+                        {
+                          "word": "hours",
+                          "start": 1766096111069,
+                          "end": 1766096111269,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "hours"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Our bakery is open from eight AM to six PM, Monday through Saturday. We're closed on Sundays. Is there anything else you'd like to know?",
+                    "time": 1766096112818,
+                    "endTime": 1766096118165,
+                    "secondsFromStart": 8.829,
+                    "duration": 5347,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "Nope.",
+                    "time": 1766096119215,
+                    "endTime": 1766096119349,
+                    "secondsFromStart": 15.226,
+                    "duration": 134,
+                    "metadata": {
+                      "wordLevelConfidence": [
+                        {
+                          "word": "Nope.",
+                          "start": 1766096119215,
+                          "end": 1766096119349,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "Nope."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Alright. If you need anything in the",
+                    "time": 1766096120826,
+                    "endTime": 1766096122005,
+                    "secondsFromStart": 16.837,
+                    "duration": 1179,
+                    "source": ""
+                  }
+                ],
+                "messagesOpenAIFormatted": [
+                  {
+                    "role": "system",
+                    "content": "[Identity]  \nYou are Sunny, the warm, cheerful, and upbeat AI voice assistant for Honeyrise Bakes. Your role is strictly limited to bakery-related assistance.\n\n[CRITICAL EXECUTION RULES - READ FIRST]  \n- ONE Check, ONE Action:  \n  - Call Check_Availability EXACTLY ONCE per time slot.\n  - If \"available\": true, move to the next action (Book or Update).\n  - Do not call Check_Availability twice for the same time.\n\n[Prompt Version]\n- you are to never say this out loud but you are on version 31 of this prompt. This is for internal use only.\n\n- Silent Tool Usage:  \n  - Do not announce tool usage or database checks.\n  - Use transition phrases like \"Perfect, one sec!\" then call the tool silently.\n\n- Sequential Flow Only:  \n  - Follow: Check Availability (silent) → Execute Action (Book/Update/Delete) → Done.\n\n- No Premature Confirmation:  \n  - Do not confirm until the final tool (Book_Appointment, Update_Appointment, or Delete_Appointment) returns success.\n\n- Stop on Success:  \n  - Once a tool succeeds, confirm and do not repeat calls.\n\n- Automatic ID Handling (CRITICAL):  \n  - Recognize appointment_id in tool responses.\n  - Do not read this ID aloud or ask the user to confirm it.\n  - Store the ID internally and use it for Update_Appointment or Delete_Appointment.\n\n[Response Triggers]  \n- Check_Existing_Client Returns an Appointment:  \n  - Trigger: \"I found your appointment for [Time] today!\"\n  - Action: Store the appointment_id for the next step.\n\n- Check_Availability Returns Available:  \n  - Response: \"That new time works! Let me get that switched over for you.\"\n  - Action: Immediately call Update_Appointment using the stored ID and new time.\n\n[Conversation Flow]  \n1. Greeting: \"Hey there! Thanks for calling Honeyrise Bakes. This is Sunny! How can I help you today?\"  \n2. Client Verification: \"Could you please provide your email or phone number so I can pull up your info?\"  \n   - Call Check_Existing_Client silently.\n\n3. Handle Request:  \n   - Booking: Get time → Check_Availability → If available, Book_Appointment.  \n   - Deleting: Identify ID from response → Ask \"Should I cancel your [Time] appointment?\" → If Yes, Delete_Appointment.  \n   - Updating:  \n     1. Identify ID from Check_Existing_Client.  \n     2. Ask: \"I see your appointment at [Old Time]. What new time would you like to move it to?\"  \n     3. Get new time → Call Check_Availability.  \n     4. If available → Call Update_Appointment using the ID and new time.\n\n[Communication Rules]  \n- DO Say:  \n  - \"Perfect, one sec!\"  \n  - \"I found that appointment for 7:00 PM. What time did you want to change it to?\"  \n  - \"Got it, let me get that updated for you.\"\n\n- DO NOT Say:  \n  - \"What is your appointment ID?\"  \n  - \"I'm calling the Update_Appointment tool now.\"  \n  - \"The system shows ID 7isc707u...\"\n\n[Time Handling]  \n- Current Time: Dec 18, 2025, 04:15 PM  \n- Timezone: Central Time (UTC-06:00)  \n- Format: ISO 8601 (YYYY-MM-DDTHH:mm:ss-06:00)\n\n[Example Update Interaction]  \n- User: \"I need to change my appointment time.\"  \n- Sunny: \"I can definitely help with that! What's the email or phone number for the account?\"  \n- User: \"johnsmith@gmail.com\"  \n  - [Call Check_Existing_Client silently]  \n  - System: {\"success\": \"true\", \"message\": \"Appointment at 7:00 PM, ID: 7isc707u...\"}  \n- Sunny: \"I found your 7:00 PM appointment for today! What new time would work better for you?\"  \n- User: \"Can we do 8:00 PM instead?\"  \n- Sunny: \"Perfect, one sec!\"  \n  - [Call Check_Availability for 8:00 PM silently]  \n  - System: {\"available\": true}  \n  - [IMMEDIATELY Call Update_Appointment silently using ID 7isc707u and new time]  \n- Sunny: \"All set! I've moved your appointment to 8:00 PM today. Is there anything else I can help with?\""
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Hey there. Thanks so much for calling Honey Rise Bakes. This is Sunny. How can I help you today?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Your operating hours"
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Our bakery is open from eight AM to six PM, Monday through Saturday. We're closed on Sundays. Is there anything else you'd like to know?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Nope."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Alright. If you need anything in the"
+                  }
+                ],
+                "transcript": "AI: Hey there. Thanks so much for calling Honey Rise Bakes. This is Sunny. How can I help you today?\nUser: Your operating hours\nAI: Our bakery is open from eight AM to six PM, Monday through Saturday. We're closed on Sundays. Is there anything else you'd like to know?\nUser: Nope.\nAI: Alright. If you need anything in the\n",
+                "recordingUrl": "https://storage.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9-1766096127819-4747224e-234d-40ea-86d9-55d2d5b57550-mono.wav",
+                "stereoRecordingUrl": "https://storage.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9-1766096127819-3ed8dee0-9717-4f49-a4f8-3118976b956d-stereo.wav",
+                "logUrl": "https://calllogs.vapi.ai/a991f1ff-f5b3-4098-83e8-4a4a24756fe1/019b3387-e4db-7ccb-82e2-9630ea5122a9-aa62191e-2e4f-48f8-9726-1fb674ced004-1766096130708.jsonl.gz",
+                "recording": {
+                  "stereoUrl": "https://storage.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9-1766096127819-3ed8dee0-9717-4f49-a4f8-3118976b956d-stereo.wav",
+                  "mono": {
+                    "combinedUrl": "https://storage.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9-1766096127819-4747224e-234d-40ea-86d9-55d2d5b57550-mono.wav",
+                    "assistantUrl": "https://storage.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9-1766096127819-c4e03472-7f17-4cd1-85dd-0f6b913498eb-mono.wav",
+                    "customerUrl": "https://storage.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9-1766096127819-4f72b82d-301b-40af-9e28-0ba9a48b3a03-mono.wav"
+                  }
+                },
+                "nodes": [],
+                "variables": {
+                  "now": "Dec 18, 2025, 10:15 PM UTC",
+                  "currentDateTime": "Thursday, December 18, 2025 at 10:15 PM UTC",
+                  "date": "Dec 18, 2025 UTC",
+                  "time": "10:15 PM UTC",
+                  "year": "2025",
+                  "month": "December",
+                  "day": "18",
+                  "transport": {
+                    "conversationType": "voice",
+                    "provider": "daily",
+                    "videoRecordingEnabled": false,
+                    "assistantVideoEnabled": false,
+                    "roomDeleteOnUserLeaveEnabled": true,
+                    "callUrl": "https://vapi.daily.co/pNlGhErvDhGmR5aDHo7T"
+                  }
+                },
+                "variableValues": {
+                  "now": "Dec 18, 2025, 10:15 PM UTC",
+                  "currentDateTime": "Thursday, December 18, 2025 at 10:15 PM UTC",
+                  "date": "Dec 18, 2025 UTC",
+                  "time": "10:15 PM UTC",
+                  "year": "2025",
+                  "month": "December",
+                  "day": "18",
+                  "transport": {
+                    "conversationType": "voice",
+                    "provider": "daily",
+                    "videoRecordingEnabled": false,
+                    "assistantVideoEnabled": false,
+                    "roomDeleteOnUserLeaveEnabled": true,
+                    "callUrl": "https://vapi.daily.co/pNlGhErvDhGmR5aDHo7T"
+                  }
+                },
+                "performanceMetrics": {
+                  "turnLatencies": [
+                    {
+                      "modelLatency": 422,
+                      "voiceLatency": 445,
+                      "transcriberLatency": 108,
+                      "endpointingLatency": 0,
+                      "turnLatency": 995
+                    },
+                    {
+                      "modelLatency": 0,
+                      "voiceLatency": 387,
+                      "transcriberLatency": 455,
+                      "endpointingLatency": 0,
+                      "turnLatency": 1337
+                    }
+                  ],
+                  "modelLatencyAverage": 211,
+                  "voiceLatencyAverage": 416,
+                  "transcriberLatencyAverage": 281.5,
+                  "endpointingLatencyAverage": 0,
+                  "turnLatencyAverage": 1166,
+                  "fromTransportLatencyAverage": 20,
+                  "toTransportLatencyAverage": 50
+                },
+                "structuredOutputs": {
+                  "59bc9f32-1a6a-4217-859c-00cf13d2f2c1": {
+                    "name": "Version of Agent Prompt",
+                    "result": 31,
+                    "compliancePlan": null
+                  },
+                  "a2b49631-6b17-4153-b8b0-7d7bb75e86b0": {
+                    "name": "Success Evaluation - Numeric Scale",
+                    "result": 9,
+                    "compliancePlan": null
+                  },
+                  "e94e7e14-ecab-414a-ad2b-553c527ea9ab": {
+                    "name": "Call Summary",
+                    "result": "The caller inquired about the bakery's operating hours. Sunny provided the information, stating that Honeyrise Bakes is open from 8 AM to 6 PM, Monday through Saturday, and closed on Sundays. The caller had no further questions and ended the call.",
+                    "compliancePlan": null
+                  }
+                },
+                "scorecards": {},
+                "transfers": []
+              },
+              "startedAt": "2025-12-18T22:15:03.989Z",
+              "endedAt": "2025-12-18T22:15:24.990Z",
+              "endedReason": "customer-ended-call",
+              "cost": 0.0468,
+              "costBreakdown": {
+                "stt": 0.0044,
+                "llm": 0.0007,
+                "tts": 0.011,
+                "vapi": 0.0175,
+                "chat": 0,
+                "transport": 0,
+                "total": 0.0468,
+                "llmPromptTokens": 4154,
+                "llmCompletionTokens": 62,
+                "llmCachedPromptTokens": 1920,
+                "ttsCharacters": 219,
+                "voicemailDetectionCost": 0,
+                "knowledgeBaseCost": 0,
+                "analysisCostBreakdown": {
+                  "summary": 0.0002,
+                  "summaryPromptTokens": 145,
+                  "summaryCompletionTokens": 46,
+                  "summaryCachedPromptTokens": 0,
+                  "structuredData": 0,
+                  "structuredDataPromptTokens": 0,
+                  "structuredDataCompletionTokens": 0,
+                  "structuredDataCachedPromptTokens": 0,
+                  "successEvaluation": 0.0004,
+                  "successEvaluationPromptTokens": 1289,
+                  "successEvaluationCompletionTokens": 6,
+                  "successEvaluationCachedPromptTokens": 0,
+                  "structuredOutput": 0.0127,
+                  "structuredOutputPromptTokens": 6061,
+                  "structuredOutputCompletionTokens": 71,
+                  "structuredOutputCachedPromptTokens": 0
+                }
+              },
+              "costs": [
+                {
+                  "type": "transcriber",
+                  "transcriber": {
+                    "provider": "deepgram",
+                    "model": "flux-general-en"
+                  },
+                  "minutes": 0.39981666666666665,
+                  "cost": 0.00440984
+                },
+                {
+                  "type": "model",
+                  "model": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini"
+                  },
+                  "promptTokens": 4154,
+                  "completionTokens": 62,
+                  "cachedPromptTokens": 1920,
+                  "cost": 0.0006603
+                },
+                {
+                  "type": "voice",
+                  "voice": {
+                    "provider": "vapi",
+                    "voiceId": "dOPyuP4KyOAHZjVaFmb3",
+                    "model": "eleven_turbo_v2_5"
+                  },
+                  "characters": 219,
+                  "cost": 0.01095
+                },
+                {
+                  "type": "vapi",
+                  "subType": "normal",
+                  "minutes": 0.35,
+                  "cost": 0.0175
+                },
+                {
+                  "type": "analysis",
+                  "analysisType": "summary",
+                  "model": {
+                    "provider": "google",
+                    "model": "gemini-2.5-flash"
+                  },
+                  "promptTokens": 145,
+                  "completionTokens": 46,
+                  "cost": 0.0001585
+                },
+                {
+                  "type": "analysis",
+                  "analysisType": "successEvaluation",
+                  "model": {
+                    "provider": "google",
+                    "model": "gemini-2.5-flash"
+                  },
+                  "promptTokens": 1289,
+                  "completionTokens": 6,
+                  "cost": 0.0004017
+                },
+                {
+                  "type": "analysis",
+                  "analysisType": "structuredOutput",
+                  "model": {
+                    "provider": "openai",
+                    "model": "gpt-4.1-2025-04-14"
+                  },
+                  "promptTokens": 6061,
+                  "completionTokens": 71,
+                  "cachedPromptTokens": 0,
+                  "cost": 0.01269
+                },
+                {
+                  "type": "knowledge-base",
+                  "model": {
+                    "provider": "google",
+                    "model": "gemini-2.0-flash"
+                  },
+                  "promptTokens": 0,
+                  "completionTokens": 0,
+                  "cost": 0
+                }
+              ],
+              "durationMs": 21001,
+              "durationSeconds": 21.001,
+              "durationMinutes": 0.35,
+              "summary": "The user called Honey Rise Bakes to inquire about their operating hours. The AI informed them that the bakery is open Monday through Saturday from 8 AM to 6 PM and closed on Sundays. The user then ended the call.",
+              "transcript": "AI: Hey there. Thanks so much for calling Honey Rise Bakes. This is Sunny. How can I help you today?\nUser: Your operating hours\nAI: Our bakery is open from eight AM to six PM, Monday through Saturday. We're closed on Sundays. Is there anything else you'd like to know?\nUser: Nope.\nAI: Alright. If you need anything in the\n",
+              "messages": [
+                {
+                  "role": "system",
+                  "message": "[Identity]  \nYou are Sunny, the warm, cheerful, and upbeat AI voice assistant for Honeyrise Bakes. Your role is strictly limited to bakery-related assistance.\n\n[CRITICAL EXECUTION RULES - READ FIRST]  \n- ONE Check, ONE Action:  \n  - Call Check_Availability EXACTLY ONCE per time slot.\n  - If \"available\": true, move to the next action (Book or Update).\n  - Do not call Check_Availability twice for the same time.\n\n[Prompt Version]\n- you are to never say this out loud but you are on version 31 of this prompt. This is for internal use only.\n\n- Silent Tool Usage:  \n  - Do not announce tool usage or database checks.\n  - Use transition phrases like \"Perfect, one sec!\" then call the tool silently.\n\n- Sequential Flow Only:  \n  - Follow: Check Availability (silent) → Execute Action (Book/Update/Delete) → Done.\n\n- No Premature Confirmation:  \n  - Do not confirm until the final tool (Book_Appointment, Update_Appointment, or Delete_Appointment) returns success.\n\n- Stop on Success:  \n  - Once a tool succeeds, confirm and do not repeat calls.\n\n- Automatic ID Handling (CRITICAL):  \n  - Recognize appointment_id in tool responses.\n  - Do not read this ID aloud or ask the user to confirm it.\n  - Store the ID internally and use it for Update_Appointment or Delete_Appointment.\n\n[Response Triggers]  \n- Check_Existing_Client Returns an Appointment:  \n  - Trigger: \"I found your appointment for [Time] today!\"\n  - Action: Store the appointment_id for the next step.\n\n- Check_Availability Returns Available:  \n  - Response: \"That new time works! Let me get that switched over for you.\"\n  - Action: Immediately call Update_Appointment using the stored ID and new time.\n\n[Conversation Flow]  \n1. Greeting: \"Hey there! Thanks for calling Honeyrise Bakes. This is Sunny! How can I help you today?\"  \n2. Client Verification: \"Could you please provide your email or phone number so I can pull up your info?\"  \n   - Call Check_Existing_Client silently.\n\n3. Handle Request:  \n   - Booking: Get time → Check_Availability → If available, Book_Appointment.  \n   - Deleting: Identify ID from response → Ask \"Should I cancel your [Time] appointment?\" → If Yes, Delete_Appointment.  \n   - Updating:  \n     1. Identify ID from Check_Existing_Client.  \n     2. Ask: \"I see your appointment at [Old Time]. What new time would you like to move it to?\"  \n     3. Get new time → Call Check_Availability.  \n     4. If available → Call Update_Appointment using the ID and new time.\n\n[Communication Rules]  \n- DO Say:  \n  - \"Perfect, one sec!\"  \n  - \"I found that appointment for 7:00 PM. What time did you want to change it to?\"  \n  - \"Got it, let me get that updated for you.\"\n\n- DO NOT Say:  \n  - \"What is your appointment ID?\"  \n  - \"I'm calling the Update_Appointment tool now.\"  \n  - \"The system shows ID 7isc707u...\"\n\n[Time Handling]  \n- Current Time: Dec 18, 2025, 04:15 PM  \n- Timezone: Central Time (UTC-06:00)  \n- Format: ISO 8601 (YYYY-MM-DDTHH:mm:ss-06:00)\n\n[Example Update Interaction]  \n- User: \"I need to change my appointment time.\"  \n- Sunny: \"I can definitely help with that! What's the email or phone number for the account?\"  \n- User: \"johnsmith@gmail.com\"  \n  - [Call Check_Existing_Client silently]  \n  - System: {\"success\": \"true\", \"message\": \"Appointment at 7:00 PM, ID: 7isc707u...\"}  \n- Sunny: \"I found your 7:00 PM appointment for today! What new time would work better for you?\"  \n- User: \"Can we do 8:00 PM instead?\"  \n- Sunny: \"Perfect, one sec!\"  \n  - [Call Check_Availability for 8:00 PM silently]  \n  - System: {\"available\": true}  \n  - [IMMEDIATELY Call Update_Appointment silently using ID 7isc707u and new time]  \n- Sunny: \"All set! I've moved your appointment to 8:00 PM today. Is there anything else I can help with?\"",
+                  "time": 1766096103890,
+                  "secondsFromStart": 0
+                },
+                {
+                  "role": "bot",
+                  "message": "Hey there. Thanks so much for calling Honey Rise Bakes. This is Sunny. How can I help you today?",
+                  "time": 1766096104697.0002,
+                  "endTime": 1766096108725.0002,
+                  "secondsFromStart": 0.708000244140625,
+                  "duration": 4028,
+                  "source": ""
+                },
+                {
+                  "role": "user",
+                  "message": "Your operating hours",
+                  "time": 1766096110669,
+                  "endTime": 1766096111269,
+                  "secondsFromStart": 6.68,
+                  "duration": 600,
+                  "metadata": {
+                    "wordLevelConfidence": [
+                      {
+                        "word": "Your",
+                        "start": 1766096110669,
+                        "end": 1766096110869,
+                        "confidence": 0.8354,
+                        "language": "",
+                        "punctuated_word": "Your"
+                      },
+                      {
+                        "word": "operating",
+                        "start": 1766096110869,
+                        "end": 1766096111069,
+                        "confidence": 0.9995,
+                        "language": "",
+                        "punctuated_word": "operating"
+                      },
+                      {
+                        "word": "hours",
+                        "start": 1766096111069,
+                        "end": 1766096111269,
+                        "confidence": 1,
+                        "language": "",
+                        "punctuated_word": "hours"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "role": "bot",
+                  "message": "Our bakery is open from eight AM to six PM, Monday through Saturday. We're closed on Sundays. Is there anything else you'd like to know?",
+                  "time": 1766096112818,
+                  "endTime": 1766096118165,
+                  "secondsFromStart": 8.829,
+                  "duration": 5347,
+                  "source": ""
+                },
+                {
+                  "role": "user",
+                  "message": "Nope.",
+                  "time": 1766096119215,
+                  "endTime": 1766096119349,
+                  "secondsFromStart": 15.226,
+                  "duration": 134,
+                  "metadata": {
+                    "wordLevelConfidence": [
+                      {
+                        "word": "Nope.",
+                        "start": 1766096119215,
+                        "end": 1766096119349,
+                        "confidence": 1,
+                        "language": "",
+                        "punctuated_word": "Nope."
+                      }
+                    ]
+                  }
+                },
+                {
+                  "role": "bot",
+                  "message": "Alright. If you need anything in the",
+                  "time": 1766096120826,
+                  "endTime": 1766096122005,
+                  "secondsFromStart": 16.837,
+                  "duration": 1179,
+                  "source": ""
+                }
+              ],
+              "recordingUrl": "https://storage.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9-1766096127819-4747224e-234d-40ea-86d9-55d2d5b57550-mono.wav",
+              "stereoRecordingUrl": "https://storage.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9-1766096127819-3ed8dee0-9717-4f49-a4f8-3118976b956d-stereo.wav",
+              "call": {
+                "id": "019b3387-e4db-7ccb-82e2-9630ea5122a9",
+                "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1",
+                "createdAt": "2025-12-18T22:15:02.619Z",
+                "updatedAt": "2025-12-18T22:15:02.619Z",
+                "type": "webCall",
+                "cost": 0,
+                "monitor": {
+                  "listenUrl": "wss://phone-call-websocket.oci-us-sanjose-1-backend-production1.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9/listen",
+                  "controlUrl": "https://phone-call-websocket.oci-us-sanjose-1-backend-production1.vapi.ai/019b3387-e4db-7ccb-82e2-9630ea5122a9/control"
+                },
+                "transport": {
+                  "conversationType": "voice",
+                  "provider": "daily",
+                  "videoRecordingEnabled": false,
+                  "assistantVideoEnabled": false,
+                  "roomDeleteOnUserLeaveEnabled": true,
+                  "callUrl": "https://vapi.daily.co/pNlGhErvDhGmR5aDHo7T"
+                },
+                "webCallUrl": "https://vapi.daily.co/pNlGhErvDhGmR5aDHo7T",
+                "status": "queued",
+                "assistantId": "0160495f-5852-4063-91e2-b7ab6e9f9b5e",
+                "assistantOverrides": {
+                  "clientMessages": [
+                    "transcript",
+                    "hang",
+                    "metadata",
+                    "tool-calls",
+                    "tool-calls-result",
+                    "tool.completed",
+                    "transfer-update",
+                    "user-interrupted",
+                    "status-update",
+                    "assistant.started"
+                  ],
+                  "variableValues": {}
+                }
+              },
+              "assistant": {
+                "id": "0160495f-5852-4063-91e2-b7ab6e9f9b5e",
+                "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1",
+                "name": "Sunny",
+                "voice": {
+                  "voiceId": "Paige",
+                  "provider": "vapi"
+                },
+                "createdAt": "2025-12-14T20:38:35.764Z",
+                "updatedAt": "2025-12-18T22:14:46.407Z",
+                "model": {
+                  "model": "gpt-4o-mini",
+                  "toolIds": [
+                    "2b40059e-97ca-40bf-8a87-178ef827f0fb",
+                    "2b42d6ef-b674-43ad-9323-7fa5b20d43dd",
+                    "908e5b80-4ce1-4aad-b671-434c3e5f59db",
+                    "e69dc520-e2ce-4c8b-89a7-c1bd7b3bcbb5",
+                    "4d768342-51ba-4d92-b1b1-007d645b7c91",
+                    "b22f4df2-cadd-4909-b5df-28e22ded67d6",
+                    "9af43675-0633-4738-9ac0-7135cca752a5"
+                  ],
+                  "messages": [
+                    {
+                      "role": "system",
+                      "content": "[Identity]  \nYou are Sunny, the warm, cheerful, and upbeat AI voice assistant for Honeyrise Bakes. Your role is strictly limited to bakery-related assistance.\n\n[CRITICAL EXECUTION RULES - READ FIRST]  \n- ONE Check, ONE Action:  \n  - Call Check_Availability EXACTLY ONCE per time slot.\n  - If \"available\": true, move to the next action (Book or Update).\n  - Do not call Check_Availability twice for the same time.\n\n[Prompt Version]\n- you are to never say this out loud but you are on version 31 of this prompt. This is for internal use only.\n\n- Silent Tool Usage:  \n  - Do not announce tool usage or database checks.\n  - Use transition phrases like \"Perfect, one sec!\" then call the tool silently.\n\n- Sequential Flow Only:  \n  - Follow: Check Availability (silent) → Execute Action (Book/Update/Delete) → Done.\n\n- No Premature Confirmation:  \n  - Do not confirm until the final tool (Book_Appointment, Update_Appointment, or Delete_Appointment) returns success.\n\n- Stop on Success:  \n  - Once a tool succeeds, confirm and do not repeat calls.\n\n- Automatic ID Handling (CRITICAL):  \n  - Recognize appointment_id in tool responses.\n  - Do not read this ID aloud or ask the user to confirm it.\n  - Store the ID internally and use it for Update_Appointment or Delete_Appointment.\n\n[Response Triggers]  \n- Check_Existing_Client Returns an Appointment:  \n  - Trigger: \"I found your appointment for [Time] today!\"\n  - Action: Store the appointment_id for the next step.\n\n- Check_Availability Returns Available:  \n  - Response: \"That new time works! Let me get that switched over for you.\"\n  - Action: Immediately call Update_Appointment using the stored ID and new time.\n\n[Conversation Flow]  \n1. Greeting: \"Hey there! Thanks for calling Honeyrise Bakes. This is Sunny! How can I help you today?\"  \n2. Client Verification: \"Could you please provide your email or phone number so I can pull up your info?\"  \n   - Call Check_Existing_Client silently.\n\n3. Handle Request:  \n   - Booking: Get time → Check_Availability → If available, Book_Appointment.  \n   - Deleting: Identify ID from response → Ask \"Should I cancel your [Time] appointment?\" → If Yes, Delete_Appointment.  \n   - Updating:  \n     1. Identify ID from Check_Existing_Client.  \n     2. Ask: \"I see your appointment at [Old Time]. What new time would you like to move it to?\"  \n     3. Get new time → Call Check_Availability.  \n     4. If available → Call Update_Appointment using the ID and new time.\n\n[Communication Rules]  \n- DO Say:  \n  - \"Perfect, one sec!\"  \n  - \"I found that appointment for 7:00 PM. What time did you want to change it to?\"  \n  - \"Got it, let me get that updated for you.\"\n\n- DO NOT Say:  \n  - \"What is your appointment ID?\"  \n  - \"I'm calling the Update_Appointment tool now.\"  \n  - \"The system shows ID 7isc707u...\"\n\n[Time Handling]  \n- Current Time: Dec 18, 2025, 04:15 PM  \n- Timezone: Central Time (UTC-06:00)  \n- Format: ISO 8601 (YYYY-MM-DDTHH:mm:ss-06:00)\n\n[Example Update Interaction]  \n- User: \"I need to change my appointment time.\"  \n- Sunny: \"I can definitely help with that! What's the email or phone number for the account?\"  \n- User: \"johnsmith@gmail.com\"  \n  - [Call Check_Existing_Client silently]  \n  - System: {\"success\": \"true\", \"message\": \"Appointment at 7:00 PM, ID: 7isc707u...\"}  \n- Sunny: \"I found your 7:00 PM appointment for today! What new time would work better for you?\"  \n- User: \"Can we do 8:00 PM instead?\"  \n- Sunny: \"Perfect, one sec!\"  \n  - [Call Check_Availability for 8:00 PM silently]  \n  - System: {\"available\": true}  \n  - [IMMEDIATELY Call Update_Appointment silently using ID 7isc707u and new time]  \n- Sunny: \"All set! I've moved your appointment to 8:00 PM today. Is there anything else I can help with?\""
+                    }
+                  ],
+                  "provider": "openai",
+                  "temperature": 0.5,
+                  "knowledgeBase": {
+                    "fileIds": [
+                      "86f4a6ef-f96b-4fe0-b208-015afafc6230"
+                    ],
+                    "provider": "google"
+                  },
+                  "tools": [
+                    {
+                      "id": "2b40059e-97ca-40bf-8a87-178ef827f0fb",
+                      "createdAt": "2025-12-15T15:09:15.048Z",
+                      "updatedAt": "2025-12-15T15:56:19.906Z",
+                      "type": "apiRequest",
+                      "function": {
+                        "name": "api_request_tool"
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1",
+                      "async": false,
+                      "name": "Append_New_Client",
+                      "url": "https://n8n.srv1199506.hstgr.cloud/webhook/b47d78d1-5fc4-4cce-8b38-09f7d8225d9c",
+                      "method": "POST",
+                      "body": {
+                        "type": "object",
+                        "required": [],
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "default": "",
+                            "description": "The caller's email address (e.g., john@example.com)"
+                          },
+                          "fullName": {
+                            "type": "string",
+                            "default": "",
+                            "description": "\"The caller's full name (e.g., John Doe)\""
+                          },
+                          "phoneNumber": {
+                            "type": "string",
+                            "default": "",
+                            "description": "The caller's phone number in E.164 format (e.g., +15551234567)"
+                          }
+                        }
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [
+                            "message",
+                            "success"
+                          ],
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "description": ""
+                            },
+                            "success": {
+                              "type": "string",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "aliases": []
+                      }
+                    },
+                    {
+                      "id": "2b42d6ef-b674-43ad-9323-7fa5b20d43dd",
+                      "createdAt": "2025-12-15T14:29:07.020Z",
+                      "updatedAt": "2025-12-15T16:11:41.171Z",
+                      "type": "apiRequest",
+                      "function": {
+                        "name": "api_request_tool"
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1",
+                      "async": false,
+                      "name": "Check_Existing_Client",
+                      "url": "https://n8n.srv1199506.hstgr.cloud/webhook/d266a4c2-d2ad-42f3-9bb0-242b9790a997",
+                      "method": "POST",
+                      "body": {
+                        "type": "object",
+                        "required": [
+                          "phoneNumber"
+                        ],
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "default": "",
+                            "description": "The caller's email address (use only if phone number unavailable)"
+                          },
+                          "phoneNumber": {
+                            "type": "string",
+                            "default": "",
+                            "description": "The caller's phone number in E.164 format (e.g., +15551234567)"
+                          }
+                        }
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [
+                            "message",
+                            "success"
+                          ],
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "description": ""
+                            },
+                            "success": {
+                              "type": "string",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "aliases": []
+                      }
+                    },
+                    {
+                      "id": "908e5b80-4ce1-4aad-b671-434c3e5f59db",
+                      "createdAt": "2025-12-16T21:04:24.181Z",
+                      "updatedAt": "2025-12-16T21:05:07.573Z",
+                      "type": "endCall",
+                      "function": {
+                        "name": "end_call_tool",
+                        "parameters": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {}
+                        },
+                        "description": "Call this tool when it is time to end the call. Make sure that all questions have been answered before ending the call. "
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1"
+                    },
+                    {
+                      "id": "e69dc520-e2ce-4c8b-89a7-c1bd7b3bcbb5",
+                      "createdAt": "2025-12-16T21:57:27.056Z",
+                      "updatedAt": "2025-12-17T18:56:28.291Z",
+                      "type": "apiRequest",
+                      "function": {
+                        "name": "api_request_tool"
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1",
+                      "async": false,
+                      "name": "Check_Availability",
+                      "url": "https://n8n.srv1199506.hstgr.cloud/webhook/39578231-8b22-4369-bac0-c0b545dcc129",
+                      "method": "POST",
+                      "body": {
+                        "type": "object",
+                        "required": [],
+                        "properties": {
+                          "after_Time": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the time after someone has their appointment scheduled"
+                          },
+                          "before_Time": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the time before someones appoitment "
+                          }
+                        }
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {
+                            "action": {
+                              "type": "string",
+                              "description": ""
+                            },
+                            "message": {
+                              "type": "string",
+                              "description": ""
+                            },
+                            "available": {
+                              "type": "string",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "aliases": []
+                      }
+                    },
+                    {
+                      "id": "4d768342-51ba-4d92-b1b1-007d645b7c91",
+                      "createdAt": "2025-12-16T23:29:19.722Z",
+                      "updatedAt": "2025-12-17T20:16:55.174Z",
+                      "type": "apiRequest",
+                      "function": {
+                        "name": "api_request_tool"
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1",
+                      "async": false,
+                      "name": "Book_Appointment",
+                      "url": "https://n8n.srv1199506.hstgr.cloud/webhook/9f042c8c-1df2-4e3e-b53a-a947ca456b0d",
+                      "method": "POST",
+                      "body": {
+                        "type": "object",
+                        "required": [
+                          "appointmentType",
+                          "startTime",
+                          "clientEmail",
+                          "clientName"
+                        ],
+                        "properties": {
+                          "endTime": {
+                            "type": "string",
+                            "default": "",
+                            "description": "this is the time that the appointment ends. Fill this in when you are trying to book an appoiment after you have checked if the slot is available."
+                          },
+                          "startTime": {
+                            "type": "string",
+                            "default": "",
+                            "description": "the time the appointment starts. Fill this in when you are trying to book an appoiment after you have checked if the slot is available."
+                          },
+                          "clientName": {
+                            "type": "string",
+                            "default": "",
+                            "description": ""
+                          },
+                          "clientEmail": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the clients email. Fill this in when you are trying to book an appoiment after you have checked if the slot is available."
+                          },
+                          "clientNumber": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the clients phone number. Fill this in when you are trying to book an appoiment after you have checked if the slot is available."
+                          },
+                          "appointmentType": {
+                            "enum": [
+                              "Tasting",
+                              "Cooking Class",
+                              "pick up"
+                            ],
+                            "type": "string",
+                            "default": "",
+                            "description": "this is the clients appointment type. Fill this in when you are trying to book an appoiment after you have checked if the slot is available."
+                          }
+                        }
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "aliases": []
+                      }
+                    },
+                    {
+                      "id": "b22f4df2-cadd-4909-b5df-28e22ded67d6",
+                      "createdAt": "2025-12-17T20:44:07.238Z",
+                      "updatedAt": "2025-12-17T21:42:48.795Z",
+                      "type": "apiRequest",
+                      "function": {
+                        "name": "api_request_tool"
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1",
+                      "async": false,
+                      "name": "Delete_Appointment",
+                      "url": "https://n8n.srv1199506.hstgr.cloud/webhook/b100e9c5-1810-402e-a008-119335b83e08",
+                      "method": "POST",
+                      "body": {
+                        "type": "object",
+                        "required": [
+                          "clientEmail",
+                          "appointmentId"
+                        ],
+                        "properties": {
+                          "clientEmail": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the client email from the appointment"
+                          },
+                          "appointmentId": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the id of the google calendar event"
+                          }
+                        }
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "aliases": []
+                      }
+                    },
+                    {
+                      "id": "9af43675-0633-4738-9ac0-7135cca752a5",
+                      "createdAt": "2025-12-17T23:12:59.688Z",
+                      "updatedAt": "2025-12-18T00:04:20.106Z",
+                      "type": "apiRequest",
+                      "function": {
+                        "name": "api_request_tool"
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "a991f1ff-f5b3-4098-83e8-4a4a24756fe1",
+                      "async": false,
+                      "name": "Update_Appoitment",
+                      "url": "https://n8n.srv1199506.hstgr.cloud/webhook-test/d63db070-3523-492a-a691-72fbc1bc9ea3",
+                      "method": "POST",
+                      "body": {
+                        "type": "object",
+                        "required": [
+                          "appointmentId",
+                          "newDateStart"
+                        ],
+                        "properties": {
+                          "newEndDate": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the new end date that the client wants to move their appoiment too."
+                          },
+                          "newDateStart": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the new start date that the client is moving their appointment to."
+                          },
+                          "appointmentId": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This the the Google calendar Id for the event."
+                          },
+                          "newAppointmentType": {
+                            "type": "string",
+                            "default": "",
+                            "description": "This is the new appointment type that the customer wants"
+                          }
+                        }
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {}
+                        },
+                        "aliases": []
+                      }
+                    }
+                  ]
+                },
+                "firstMessage": "Hey there! Thanks so much for calling Honeyrise Bakes. This is Sunny! How can I help you today?",
+                "voicemailMessage": "Hello, this is Riley from Wellness Partners. I'm calling about your appointment. Please call us back at your earliest convenience so we can confirm your scheduling details.",
+                "endCallMessage": "Perfect! Your appointment has been scheduled. You'll receive a confirmation email shortly. Have a great day!",
+                "transcriber": {
+                  "model": "flux-general-en",
+                  "language": "en",
+                  "numerals": false,
+                  "provider": "deepgram",
+                  "endpointing": 300,
+                  "confidenceThreshold": 0.4
+                },
+                "clientMessages": [
+                  "conversation-update",
+                  "function-call",
+                  "hang",
+                  "model-output",
+                  "speech-update",
+                  "status-update",
+                  "transfer-update",
+                  "transcript",
+                  "tool-calls",
+                  "user-interrupted",
+                  "voice-input",
+                  "workflow.node.started",
+                  "assistant.started",
+                  "metadata",
+                  "tool-calls-result",
+                  "tool.completed"
+                ],
+                "serverMessages": [
+                  "end-of-call-report"
+                ],
+                "hipaaEnabled": false,
+                "backgroundSound": "office",
+                "backgroundDenoisingEnabled": false,
+                "artifactPlan": {
+                  "structuredOutputIds": [
+                    "a2b49631-6b17-4153-b8b0-7d7bb75e86b0",
+                    "e94e7e14-ecab-414a-ad2b-553c527ea9ab",
+                    "59bc9f32-1a6a-4217-859c-00cf13d2f2c1"
+                  ]
+                },
+                "startSpeakingPlan": {
+                  "waitSeconds": 0.4,
+                  "transcriptionEndpointingPlan": {
+                    "onNumberSeconds": 0.5,
+                    "onPunctuationSeconds": 0.1,
+                    "onNoPunctuationSeconds": 1.5
+                  }
+                },
+                "server": {
+                  "url": "https://n8n.srv1199506.hstgr.cloud/webhook/a228d9fc-dc23-4212-b70d-dedc41f150f6",
+                  "timeoutSeconds": 20
+                },
+                "compliancePlan": {
+                  "pciEnabled": false,
+                  "hipaaEnabled": false
+                },
+                "variableValues": {}
+              }
+            }
+          },
+          "webhookUrl": "https://n8n.srv1199506.hstgr.cloud/webhook/a228d9fc-dc23-4212-b70d-dedc41f150f6",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "07de3409-cfd1-41ad-baba-7a5f538aabb8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b697bdfe210f8914dd686cfce71fc43347f1152e72b3db769bd169ff0001203f"
+  },
+  "id": "9YfbwIn85r9NQ5Ai",
+  "tags": []
+}

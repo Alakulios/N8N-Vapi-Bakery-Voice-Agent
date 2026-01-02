@@ -1,0 +1,250 @@
+{
+  "name": "Check Availability",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "39578231-8b22-4369-bac0-c0b545dcc129",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -416,
+        0
+      ],
+      "id": "c1ab9377-b1bd-4cd2-8676-bc8e47d3bfe3",
+      "name": "Webhook",
+      "webhookId": "39578231-8b22-4369-bac0-c0b545dcc129"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a66e79d3-5496-4b69-98d0-436b80e9fb53",
+              "leftValue": "={{ $json.summary }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "660ec8d1-00a8-45cd-a860-1e97bec9082e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9f2ad0ba-76bb-4c49-92de-c25645875a95",
+              "name": "message",
+              "value": "Time slot is available",
+              "type": "string"
+            },
+            {
+              "id": "4766476e-b456-4e8b-a5a4-367707acb282",
+              "name": "action",
+              "value": "proceed_to_booking",
+              "type": "string"
+            },
+            {
+              "id": "f9ac5d83-61ff-4dd6-b969-71423c377a87",
+              "name": "available",
+              "value": "true",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        80
+      ],
+      "id": "d7faf48e-9ef6-4417-a48e-66dc6ef0ff76",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "bigehagan@gmail.com",
+          "mode": "list",
+          "cachedResultName": "Bigehagan "
+        },
+        "returnAll": true,
+        "timeMin": "={{ $json.body.after_Time }}",
+        "timeMax": "={{ $json.body.before_Time }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -208,
+        0
+      ],
+      "id": "df0b88ca-7e6d-4d29-9ba6-92eda56e728c",
+      "name": "Get many events",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "HGFzuh0Nx9BQoHZ2",
+          "name": "Google Calendar account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2cd4b8a5-1633-4830-b0c7-f6c0fcfb198a",
+              "name": "available",
+              "value": "false",
+              "type": "string"
+            },
+            {
+              "id": "f2f74399-7991-45b9-894a-3dcae7e73806",
+              "name": "message",
+              "value": "Time slot is taken",
+              "type": "string"
+            },
+            {
+              "id": "7fb39f50-aa89-4d74-b9a3-6bbf88a1bbe8",
+              "name": "action",
+              "value": "ask for another time",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -96
+      ],
+      "id": "90c92fe8-7d77-40fa-9575-a71dd94c7e13",
+      "name": "Edit Fields1"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1199506.hstgr.cloud",
+            "user-agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            "content-length": "34",
+            "accept": "*/*",
+            "accept-encoding": "gzip,deflate",
+            "baggage": "sentry-environment=production,sentry-release=1475b17e909a3431bf56e07e434fa9de957adaec,sentry-public_key=fac6f282c765ce50b18c3fa0305f8a8b,sentry-trace_id=0ed7f3278ba24b228a53eb996c6db6c0",
+            "content-type": "application/json",
+            "sentry-trace": "0ed7f3278ba24b228a53eb996c6db6c0-bb80708ac45d9fb1",
+            "traceparent": "00-6bacfa2ca598fdd1ccf2124a07dfd3e1-3904964ff44b9741-01",
+            "x-forwarded-for": "170.9.5.187",
+            "x-forwarded-host": "n8n.srv1199506.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "ffda73ab8502",
+            "x-real-ip": "170.9.5.187",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "after_Time": "",
+            "before_Time": ""
+          },
+          "webhookUrl": "https://n8n.srv1199506.hstgr.cloud/webhook/39578231-8b22-4369-bac0-c0b545dcc129",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b74e3cfb-1e84-4d91-915f-41e96f462867",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b697bdfe210f8914dd686cfce71fc43347f1152e72b3db769bd169ff0001203f"
+  },
+  "id": "SKY3O8eJm8QkzXmS",
+  "tags": [
+    {
+      "updatedAt": "2025-12-15T02:24:34.488Z",
+      "createdAt": "2025-12-15T02:24:34.488Z",
+      "id": "x0uB6KMTziDtq6XW",
+      "name": "Vapi MCP"
+    }
+  ]
+}
